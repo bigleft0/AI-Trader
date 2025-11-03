@@ -358,6 +358,9 @@ class BaseAgent:
                 for line in f:
                     doc = json.loads(line)
                     current_date = doc['date']
+                    # Ensure date only contains date part (YYYY-MM-DD)
+                    if ' ' in current_date:
+                        current_date = current_date.split(' ')[0]
                     if max_date is None:
                         max_date = current_date
                     else:
@@ -410,6 +413,12 @@ class BaseAgent:
             init_date: Start date
             end_date: End date
         """
+        # Ensure dates only contain date part (YYYY-MM-DD)
+        if ' ' in init_date:
+            init_date = init_date.split(' ')[0]
+        if ' ' in end_date:
+            end_date = end_date.split(' ')[0]
+            
         print(f"📅 Running date range: {init_date} to {end_date}")
         
         # Get trading date list

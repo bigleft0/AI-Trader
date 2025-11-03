@@ -194,7 +194,12 @@ async def main(config_path=None):
         runtime_env_path = runtime_env_dir / ".runtime_env.json"
         os.environ["RUNTIME_ENV_PATH"] = str(runtime_env_path)
         os.environ["SIGNATURE"] = signature
-        write_config_value("TODAY_DATE", END_DATE)
+        # Ensure TODAY_DATE only contains date part (YYYY-MM-DD)
+        if ' ' in END_DATE:
+            today_date_only = END_DATE.split(' ')[0]
+        else:
+            today_date_only = END_DATE
+        write_config_value("TODAY_DATE", today_date_only)
         write_config_value("IF_TRADE", False)
 
 
@@ -259,4 +264,3 @@ if __name__ == "__main__":
         print(f"📄 Using default configuration file: configs/default_config.json")
     
     asyncio.run(main(config_path))
-
